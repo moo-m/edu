@@ -266,29 +266,45 @@
             <p class="small">مجلة علمية محكّمة شكليًا | ISSN: 10.9999</p>
         </footer>
         <script>
-            const dbUrl = "/db.json";
+            const BIN_ID = "693dd726ae596e708f9800c8";
+            const API_KEY =
+                "$2a$10$Z6g1bEkhZcgUHxHH3QNhVuvYotBhJboxM85kQrZMlWn8KPwrNdX9m";
+
+            const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
             async function viewers() {
                 try {
-                    const response = await fetch(dbUrl);
-                    const data = await response.json();
-
-                    const currentViewers = data.viewers || 0;
-
-                    const updateResponse = await fetch(dbUrl, {
-                        method: "PATCH",
+                    // 1️⃣ جلب العدد الحالي
+                    const getRes = await fetch(BIN_URL, {
                         headers: {
-                            "Content-Type": "application/json"
+                            "X-Master-Key": API_KEY
+                        }
+                    });
+
+                    const getData = await getRes.json();
+                    const currentViewers = getData.record.viewers || 0;
+
+                    // 2️⃣ تحديث العدد
+                    const newViewers = currentViewers + 1;
+
+                    await fetch(BIN_URL, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-Master-Key": API_KEY
                         },
                         body: JSON.stringify({
-                            viewers: currentViewers + 1
+                            viewers: newViewers
                         })
                     });
 
-                    const result = await updateResponse.json();
-                    console.log("تم تحديث عدد الزيارات:", result.viewers);
-                } catch (error) {
-                    console.error("خطأ في عدّاد الزيارات:", error);
+                    // 3️⃣ عرض العدد
+                    const viewsEl = document.getElementById("views");
+                    if (viewsEl) {
+                        viewsEl.textContent = "عدد الزيارات: " + newViewers;
+                    }
+                } catch (err) {
+                    console.error("خطأ في عدّاد الزيارات:", err);
                 }
             }
 
