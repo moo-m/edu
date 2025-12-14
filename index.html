@@ -185,23 +185,47 @@
             </div>
         </section>
 
-        <section id="editorial">
-            <div class="container">
-                <h2>هيئة التحرير</h2>
+<section id="editorial">
+    <div class="container">
+        <h2>هيئة التحرير</h2>
 
-                <div class="card">
-                    <p><strong>د. ولاء بكّار</strong></p>
-                    <p>محرّرة مشاركة</p>
-                    <p class="small">إشراف علمي ومراجعة لغوية بشرية</p>
-                </div>
+        <div class="card">
+            <p><strong>د. ولاء بكّار</strong></p>
+            <p>محرّرة مشاركة</p>
+            <p class="small">إشراف علمي ومراجعة لغوية بشرية</p>
+        </div>
 
-                <div class="card">
-                    <p><strong>محمود الخزاعلة</strong></p>
-                    <p>محرّر مشارك</p>
-                    <p class="small">كاتب المقدّمة ومنسّق المحتوى</p>
-                </div>
-            </div>
-        </section>
+        <div class="card">
+            <p><strong>د. أبو الطيّب المتنبّي</strong></p>
+            <p>محرّر الإبداع اللغوي</p>
+            <p class="small">توليد الخطاب الشعري وصقل الأسلوب البلاغي</p>
+        </div>
+
+        <div class="card">
+            <p><strong>د. ابن جني</strong></p>
+            <p>محرّر البنية الصرفية</p>
+            <p class="small">تحليل الأصوات والاشتقاق وضبط التحوّلات اللغوية</p>
+        </div>
+
+        <div class="card">
+            <p><strong>د. ابن خلدون</strong></p>
+            <p>محرّر السياق الثقافي</p>
+            <p class="small">ربط النصوص بالبنية الاجتماعية والتاريخية</p>
+        </div>
+
+        <div class="card">
+            <p><strong>د. فيودور دوستفسكي</strong></p>
+            <p>محرّر العمق النفسي</p>
+            <p class="small">بناء الشخصيات وتحليل الدوافع الداخلية</p>
+        </div>
+
+        <div class="card">
+            <p><strong>د. سيبويه</strong></p>
+            <p>محرّر الضبط النحوي</p>
+            <p class="small">تقويم التراكيب وبناء الجمل وفق النسق القاعدي</p>
+        </div>
+    </div>
+</section>
 
         <section id="research">
             <div class="container">
@@ -266,49 +290,49 @@
             <p class="small">مجلة علمية محكّمة شكليًا | ISSN: 10.9999</p>
         </footer>
         <script>
-            const BIN_ID = "693dd726ae596e708f9800c8";
-            const API_KEY =
-                "$2a$10$Z6g1bEkhZcgUHxHH3QNhVuvYotBhJboxM85kQrZMlWn8KPwrNdX9m";
+const BIN_ID = "693dd726ae596e708f9800c8";
+const API_KEY = "$2a$10$Z6g1bEkhZcgUHxHH3QNhVuvYotBhJboxM85kQrZMlWn8KPwrNdX9m";
 
-            const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
-            async function viewers() {
-                try {
-                    // 1️⃣ جلب العدد الحالي
-                    const getRes = await fetch(BIN_URL, {
-                        headers: {
-                            "X-Master-Key": API_KEY
-                        }
-                    });
-
-                    const getData = await getRes.json();
-                    const currentViewers = getData.record.viewers || 0;
-
-                    // 2️⃣ تحديث العدد
-                    const newViewers = currentViewers + 1;
-
-                    await fetch(BIN_URL, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-Master-Key": API_KEY
-                        },
-                        body: JSON.stringify({
-                            viewers: newViewers
-                        })
-                    });
-
-                    // 3️⃣ عرض العدد
-                    const viewsEl = document.getElementById("views");
-                    if (viewsEl) {
-                        viewsEl.textContent = "عدد الزيارات: " + newViewers;
-                    }
-                } catch (err) {
-                    console.error("خطأ في عدّاد الزيارات:", err);
-                }
+async function viewers() {
+    try {
+        // 1️⃣ جلب العدد الحالي
+        const getRes = await fetch(BIN_URL, {
+            headers: {
+                "X-Master-Key": API_KEY
             }
+        });
 
-            window.addEventListener("load", viewers);
-        </script>
+        const getData = await getRes.json();
+        const currentViewers = getData.record.viewers || 0;
+
+        // 2️⃣ تحديث العدد
+        const newViewers = currentViewers + 1;
+
+        await fetch(BIN_URL, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Master-Key": API_KEY
+            },
+            body: JSON.stringify({
+                viewers: newViewers
+            })
+        });
+
+        // 3️⃣ عرض العدد
+        const viewsEl = document.getElementById("views");
+        if (viewsEl) {
+            viewsEl.textContent = "عدد الزيارات: " + newViewers;
+        }
+
+    } catch (err) {
+        console.error("خطأ في عدّاد الزيارات:", err);
+    }
+}
+
+window.addEventListener("load", viewers);
+</script>
     </body>
 </html>
